@@ -2,7 +2,13 @@ package hlp
 
 import "log"
 
-func Must[T interface{}](a T, err error) T {
+func Must(err error) {
+	if err != nil {
+		log.Fatal(err)
+	}
+}
+
+func Must2[T interface{}](a T, err error) T {
 	if err != nil {
 		log.Fatal(err)
 	}
