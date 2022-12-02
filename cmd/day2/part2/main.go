@@ -4,7 +4,7 @@ import (
 	"fmt"
 
 	"github.com/karlhepler/advent-of-code-2022/fyl"
-	"github.com/karlhepler/advent-of-code-2022/hlp"
+	"github.com/karlhepler/advent-of-code-2022/it"
 )
 
 func main() {
@@ -26,7 +26,7 @@ func main() {
 	}
 
 	filepath := "cmd/day2/input.txt"
-	hlp.Must(fyl.ReadEachLine(filepath, func(line string) error {
+	it.Must(fyl.ReadEachLine(filepath, func(line string) error {
 		score += scoremap[line]
 		return nil
 	}))
