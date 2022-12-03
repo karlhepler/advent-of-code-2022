@@ -25,9 +25,9 @@ func main() {
 		"C Z": 1 + 6, // scissors (win) = rock
 	}
 
-	filepath := "cmd/day2/input.txt"
-	it.Must(fyl.ReadEachLine(filepath, func(line string) error {
-		score += scoremap[line]
+	filepath := "cmd/day2/input"
+	it.Must(fyl.ReadEachLine(filepath, func(line []byte) error {
+		score += scoremap[string(line)]
 		return nil
 	}))
 

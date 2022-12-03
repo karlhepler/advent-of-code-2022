@@ -15,15 +15,15 @@ func main() {
 	var allElvesCalories []int
 
 	// assume running from repo root
-	filepath := "cmd/day1/input.txt"
-	it.Must(fyl.ReadEachLine(filepath, func(line string) error {
-		if line == "" {
+	filepath := "cmd/day1/input"
+	it.Must(fyl.ReadEachLine(filepath, func(line []byte) error {
+		if len(line) == 0 {
 			allElvesCalories = append(allElvesCalories, numCalories)
 			numCalories = 0
 			return nil
 		}
 
-		numCalories += it.Must2(strconv.Atoi(line))
+		numCalories += it.Must2(strconv.Atoi(string(line)))
 		return nil
 	}))
 
