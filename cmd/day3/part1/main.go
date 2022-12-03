@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 
+	"github.com/karlhepler/advent-of-code-2022/elf"
 	"github.com/karlhepler/advent-of-code-2022/fyl"
 	"github.com/karlhepler/advent-of-code-2022/it"
 )
@@ -20,8 +21,8 @@ func main() {
 		}
 
 		for i, n := 0, len(left); i < n; i++ {
-			if b, ok := rvalmap[left[i]]; ok {
-				total += priority(b)
+			if item, ok := rvalmap[left[i]]; ok {
+				total += elf.ItemPriority(item)
 				return nil
 			}
 		}
@@ -35,18 +36,4 @@ func main() {
 func split(line []byte) ([]byte, []byte) {
 	halfidx := len(line) / 2
 	return line[:halfidx], line[halfidx:]
-}
-
-func priority(b byte) int {
-	// a - z
-	if b >= 97 && b <= 122 {
-		return int(b) - 97 + 1
-	}
-
-	// A - Z
-	if b >= 65 && b <= 90 {
-		return int(b) - 65 + 27
-	}
-
-	return 0
 }
