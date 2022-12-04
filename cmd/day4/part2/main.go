@@ -20,7 +20,7 @@ func main() {
 		})
 
 		ids := it.Must2(str.AtoiSlice(fields))
-		if rng.IsWithin(ids[:2], ids[2:]) || rng.IsWithin(ids[2:], ids[:2]) {
+		if rng.Overlaps(ids[:2], ids[2:]) {
 			total++
 		}
 
