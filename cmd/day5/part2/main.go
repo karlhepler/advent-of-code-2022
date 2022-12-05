@@ -76,19 +76,26 @@ func bottom(crate *crate) *crate {
 }
 
 func move(crates []*crate, line []byte) error {
-	numToMove, fromIdx, toIdx, err := parseMove(line)
+	numSteps, fromIdx, toIdx, err := parseMove(line)
 	if err != nil {
 		return err
 	}
 
-	for i := 0; i < numToMove; i++ {
-		from, to := crates[fromIdx], crates[toIdx]
-		crates[fromIdx] = from.next
-		from.next = to
-		crates[toIdx] = from
-	}
+	from, to := crates[fromIdx], crates[toIdx]
+	lastFrom := crateAtStep(from, numSteps)
+
+	crates[fromIdx] = lastFrom.next
+	crates[toIdx] = from
+	lastFrom.next = to
 
 	return nil
+}
+
+func crateAtStep(crate *crate, numSteps int) *crate {
+	for step := 1; crate != nil && crate.next != nil && step < numSteps; step++ {
+		crate = crate.next
+	}
+	return crate
 }
 
 func parseMove(line []byte) (numToMove, fromIdx, toIdx int, err error) {
