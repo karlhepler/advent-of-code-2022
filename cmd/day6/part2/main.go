@@ -13,7 +13,7 @@ func main() {
 
 	filepath := "cmd/day6/input"
 	it.Must(fyl.ReadEachLine(filepath, func(line []byte) error {
-		startIndex = com.GetStartIndex(line, 4)
+		startIndex = com.GetStartIndex(line, 14)
 		return nil
 	}))
 
