@@ -13,17 +13,22 @@ import (
 func main() {
 	var x = fs.NewExplorer()
 
-	filepath := "cmd/day7/example"
+	filepath := "cmd/day7/input"
 	it.Must(fyl.ReadEachLine(filepath, func(line []byte) error {
 		s := string(line)
 
 		// no need to do anything if ls or dir
-		if s == "$ ls" || strings.HasPrefix(s, "dir") {
+		if s == "$ ls" {
 			return nil
 		}
 
 		if strings.HasPrefix(s, "$ cd") {
 			x.Chdir(s[5:])
+			return nil
+		}
+
+		if strings.HasPrefix(s, "dir") {
+			x.Mkdir(s[4:])
 			return nil
 		}
 
@@ -40,6 +45,5 @@ func main() {
 		}
 	}
 
-	fmt.Println(x.FS)
 	fmt.Println(total)
 }

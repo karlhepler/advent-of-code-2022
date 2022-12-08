@@ -36,6 +36,10 @@ func (x *Explorer) CreateFile(filename string, size int) {
 	x.FS[path.Join(x.CWD, filename)] = size
 }
 
+func (x *Explorer) Mkdir(dirname string) {
+	x.CreateFile(dirname, 0)
+}
+
 func (x *Explorer) GetDirSize(dir string) (dirsize int) {
 	for filepath, filesize := range x.FS {
 		if strings.HasPrefix(filepath, dir) {
