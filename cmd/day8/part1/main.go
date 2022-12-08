@@ -29,7 +29,7 @@ func main() {
 	masks[2] = tbMask(grid)
 	masks[3] = btMask(grid)
 
-	fmt.Println(masks[1])
+	fmt.Println(masks[2])
 }
 
 func lrMask(grid [][]byte) [][]bool {
