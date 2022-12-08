@@ -22,7 +22,9 @@ func main() {
 	masks[2] = tbMask(grid)
 	masks[3] = btMask(grid)
 
-	fmt.Println(countVisible(orMatrices(masks)))
+	orMasks := orMatrices(masks)
+	numVisible := countVisible(orMasks)
+	fmt.Println(numVisible) // 1625 is WRONG
 }
 
 func lrMask(grid [][]byte) [][]byte {
@@ -133,7 +135,7 @@ func orMatrices(mats [][][]byte) [][]byte {
 			}
 
 			for col := 0; col < maxcol; col++ {
-				out[row][col] = mat[row][col] | out[row][col]
+				out[row][col] = out[row][col] | mat[row][col]
 			}
 		}
 	}
@@ -144,8 +146,8 @@ func orMatrices(mats [][][]byte) [][]byte {
 func countVisible(mat [][]byte) int {
 	var total int
 
-	for row, maxrow := 0, len(mat[0]); row < maxrow; row++ {
-		for col, maxcol := 0, len(mat); col < maxcol; col++ {
+	for row, maxrow := 0, len(mat); row < maxrow; row++ {
+		for col, maxcol := 0, len(mat[0]); col < maxcol; col++ {
 			if mat[row][col] == 1 {
 				total++
 			}
