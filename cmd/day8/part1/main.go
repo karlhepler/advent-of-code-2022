@@ -22,8 +22,8 @@ func main() {
 	masks[2] = tbMask(grid)
 	masks[3] = btMask(grid)
 
-	orMasks := orMatrices(masks)
-	numVisible := countVisible(orMasks)
+	orMask := orMatrices(masks)
+	numVisible := countVisible(orMask)
 	fmt.Println(numVisible) // 1625 is WRONG
 }
 
