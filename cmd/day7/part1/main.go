@@ -40,5 +40,6 @@ func main() {
 		}
 	}
 
+	fmt.Println(x.FS)
 	fmt.Println(total)
 }
