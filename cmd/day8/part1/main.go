@@ -10,7 +10,7 @@ import (
 func main() {
 	var grid = make([][]byte, 0)
 
-	filepath := "cmd/day8/example"
+	filepath := "cmd/day8/input"
 	it.Must(fyl.ReadEachLine(filepath, func(line []byte) error {
 		grid = append(grid, line)
 		return nil
