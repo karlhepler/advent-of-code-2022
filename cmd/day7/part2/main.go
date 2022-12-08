@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -38,12 +39,15 @@ func main() {
 		return nil
 	}))
 
-	var total int
-	for _, dirsize := range x.GetDirSizes() {
-		if dirsize <= 100000 {
-			total += dirsize
+	dirsizes := x.GetDirSizes()
+	sort.Ints(dirsizes)
+
+	var i = len(dirsizes) - 1
+	for ; i >= 0; i-- {
+		if dirsizes[i] < 8381165 {
+			break
 		}
 	}
 
-	fmt.Println(total)
+	fmt.Println(dirsizes[i+1]) // 7209796 is WRONG!
 }
