@@ -7,13 +7,6 @@ import (
 	"github.com/karlhepler/advent-of-code-2022/it"
 )
 
-const (
-	LeftRight int = iota
-	RightLeft
-	TopBottom
-	BottomTop
-)
-
 func main() {
 	var grid = make([][]byte, 0)
 
@@ -23,28 +16,75 @@ func main() {
 		return nil
 	}))
 
-	var masks = make([][][]bool, 4)
+	var masks = make([][][]byte, 4)
 	masks[0] = lrMask(grid)
 	masks[1] = rlMask(grid)
 	masks[2] = tbMask(grid)
 	masks[3] = btMask(grid)
 
-	fmt.Println(masks[2])
+	fmt.Println(countVisible(orMatrices(masks)))
 }
 
-func lrMask(grid [][]byte) [][]bool {
-	var mask = make([][]bool, len(grid))
+func lrMask(grid [][]byte) [][]byte {
+	var mask = make([][]byte, len(grid))
 
-	for col, maxcol := 0, len(grid); col < maxcol; col++ {
+	for row, maxrow := 0, len(grid); row < maxrow; row++ {
 
 		max := byte(0)
-		maxrow := len(grid[col])
-		mask[col] = make([]bool, maxrow)
+		maxcol := len(grid[row])
+		mask[row] = make([]byte, maxcol)
+
+		for col := 0; col < maxcol; col++ {
+			val := grid[row][col]
+			if val > max {
+				mask[row][col] = 1
+				max = val
+			}
+		}
+	}
+
+	return mask
+}
+
+func rlMask(grid [][]byte) [][]byte {
+	var mask = make([][]byte, len(grid))
+
+	for row, maxrow := 0, len(grid); row < maxrow; row++ {
+
+		max := byte(0)
+		maxcol := len(grid[row])
+		mask[row] = make([]byte, maxcol)
+
+		for col := maxcol - 1; col >= 0; col-- {
+			val := grid[row][col]
+			if val > max {
+				mask[row][col] = 1
+				max = val
+			}
+		}
+	}
+
+	return mask
+}
+
+func tbMask(grid [][]byte) [][]byte {
+	var mask = make([][]byte, len(grid))
+
+	maxrow := len(grid)
+	maxcol := len(grid[0])
+
+	for col := 0; col < maxcol; col++ {
+
+		max := byte(0)
 
 		for row := 0; row < maxrow; row++ {
-			val := grid[col][row]
+			if len(mask[row]) == 0 {
+				mask[row] = make([]byte, maxcol)
+			}
+
+			val := grid[row][col]
 			if val > max {
-				mask[col][row] = true
+				mask[row][col] = 1
 				max = val
 			}
 		}
@@ -53,19 +93,24 @@ func lrMask(grid [][]byte) [][]bool {
 	return mask
 }
 
-func rlMask(grid [][]byte) [][]bool {
-	var mask = make([][]bool, len(grid))
+func btMask(grid [][]byte) [][]byte {
+	var mask = make([][]byte, len(grid))
 
-	for col, maxcol := 0, len(grid); col < maxcol; col++ {
+	maxrow := len(grid)
+	maxcol := len(grid[0])
+
+	for col := maxcol - 1; col >= 0; col-- {
 
 		max := byte(0)
-		maxrow := len(grid[col])
-		mask[col] = make([]bool, maxrow)
 
 		for row := maxrow - 1; row >= 0; row-- {
-			val := grid[col][row]
+			if len(mask[row]) == 0 {
+				mask[row] = make([]byte, maxcol)
+			}
+
+			val := grid[row][col]
 			if val > max {
-				mask[col][row] = true
+				mask[row][col] = 1
 				max = val
 			}
 		}
@@ -74,15 +119,38 @@ func rlMask(grid [][]byte) [][]bool {
 	return mask
 }
 
-func tbMask(grid [][]byte) [][]bool {
-	var mask = make([][]bool, len(grid))
-	return mask
+func orMatrices(mats [][][]byte) [][]byte {
+	var out = make([][]byte, len(mats[0]))
+
+	maxrow := len(mats[0])
+	maxcol := len(mats[0][0])
+
+	for _, mat := range mats {
+		for row := 0; row < maxrow; row++ {
+
+			if len(out[row]) == 0 {
+				out[row] = make([]byte, maxrow)
+			}
+
+			for col := 0; col < maxcol; col++ {
+				out[row][col] = mat[row][col] | out[row][col]
+			}
+		}
+	}
+
+	return out
 }
 
-// fmt.Printf("max=%s val=%s ", string(max), string(val))
-// fmt.Printf("visible=%t\n", mask[y][x])
+func countVisible(mat [][]byte) int {
+	var total int
 
-func btMask(grid [][]byte) [][]bool {
-	var mask = make([][]bool, len(grid))
-	return mask
+	for row, maxrow := 0, len(mat[0]); row < maxrow; row++ {
+		for col, maxcol := 0, len(mat); col < maxcol; col++ {
+			if mat[row][col] == 1 {
+				total++
+			}
+		}
+	}
+
+	return total
 }
