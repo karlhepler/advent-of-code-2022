@@ -96,5 +96,5 @@ func main() {
 		}
 	}
 
-	fmt.Println(numVisible)
+	fmt.Println(numVisible) // 1625 is WRONG
 }
