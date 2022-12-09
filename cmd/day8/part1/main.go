@@ -10,7 +10,7 @@ import (
 func main() {
 	var trees = make([][]byte, 0)
 
-	filename := "cmd/day8/input"
+	filename := "cmd/day8/zach"
 	it.Must(fyl.ReadEachLine(filename, func(line []byte) error {
 		trees = append(trees, line)
 		return nil
@@ -27,7 +27,11 @@ func main() {
 			// direction.
 			isVisible := true
 			for c := col; c >= 0; c-- {
-				if c != col && trees[row][c] >= height {
+				if c == col {
+					continue
+				}
+
+				if trees[row][c] >= height {
 					isVisible = false
 					break
 				}
@@ -45,7 +49,11 @@ func main() {
 			// direction.
 			isVisible = true
 			for c := col; c < numcols; c++ {
-				if c != col && trees[row][c] >= height {
+				if c == col {
+					continue
+				}
+
+				if trees[row][c] >= height {
 					isVisible = false
 					break
 				}
@@ -63,7 +71,11 @@ func main() {
 			// direction.
 			isVisible = true
 			for r := row; r >= 0; r-- {
-				if r != row && trees[r][col] >= height {
+				if r == row {
+					continue
+				}
+
+				if trees[r][col] >= height {
 					isVisible = false
 					break
 				}
@@ -81,7 +93,11 @@ func main() {
 			// direction.
 			isVisible = true
 			for r := row; r < numrows; r++ {
-				if r != row && trees[r][col] >= height {
+				if r == row {
+					continue
+				}
+
+				if trees[r][col] >= height {
 					isVisible = false
 					break
 				}
