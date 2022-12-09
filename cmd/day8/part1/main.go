@@ -10,7 +10,7 @@ import (
 func main() {
 	var trees = make([][]int, 0)
 
-	filename := "cmd/day8/input" // must be 1763 (first part); 671160 (second part)
+	filename := "cmd/day8/input"
 	it.Must(fyl.ReadEachLine(filename, func(line []byte) error {
 		treeline := make([]int, len(line))
 		for i, n := 0, len(line); i < n; i++ {
