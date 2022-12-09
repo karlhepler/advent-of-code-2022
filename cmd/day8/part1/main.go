@@ -8,11 +8,15 @@ import (
 )
 
 func main() {
-	var trees = make([][]byte, 0)
+	var trees = make([][]int, 0)
 
-	filename := "cmd/day8/zach"
+	filename := "cmd/day8/input" // must be 1763 (first part); 671160 (second part)
 	it.Must(fyl.ReadEachLine(filename, func(line []byte) error {
-		trees = append(trees, line)
+		treeline := make([]int, len(line))
+		for i, n := 0, len(line); i < n; i++ {
+			treeline[i] = int(line[i])
+		}
+		trees = append(trees, treeline)
 		return nil
 	}))
 
@@ -27,11 +31,7 @@ func main() {
 			// direction.
 			isVisible := true
 			for c := col; c >= 0; c-- {
-				if c == col {
-					continue
-				}
-
-				if trees[row][c] >= height {
+				if c != col && trees[row][c] >= height {
 					isVisible = false
 					break
 				}
@@ -49,11 +49,7 @@ func main() {
 			// direction.
 			isVisible = true
 			for c := col; c < numcols; c++ {
-				if c == col {
-					continue
-				}
-
-				if trees[row][c] >= height {
+				if c != col && trees[row][c] >= height {
 					isVisible = false
 					break
 				}
@@ -71,11 +67,7 @@ func main() {
 			// direction.
 			isVisible = true
 			for r := row; r >= 0; r-- {
-				if r == row {
-					continue
-				}
-
-				if trees[r][col] >= height {
+				if r != row && trees[r][col] >= height {
 					isVisible = false
 					break
 				}
@@ -93,11 +85,7 @@ func main() {
 			// direction.
 			isVisible = true
 			for r := row; r < numrows; r++ {
-				if r == row {
-					continue
-				}
-
-				if trees[r][col] >= height {
+				if r != row && trees[r][col] >= height {
 					isVisible = false
 					break
 				}
