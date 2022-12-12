@@ -15,7 +15,7 @@ func main() {
 	var bridge = &Bridge{}
 	var visits = make(map[[2]float64]bool)
 
-	filepath := "cmd/day9/input"
+	filepath := "cmd/day9/example"
 	it.Must(fyl.ReadEachLine(filepath, func(line []byte) error {
 		split := strings.Split(string(line), " ")
 		numSteps := it.Must2(strconv.Atoi(split[1]))
