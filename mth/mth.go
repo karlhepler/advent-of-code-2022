@@ -21,3 +21,13 @@ func SumInts(ints []int) (sum int) {
 
 	return sum
 }
+
+func Sign(a float64) float64 {
+	if a > 0 {
+		return 1
+	}
+	if a < 0 {
+		return -1
+	}
+	return 0
+}
