@@ -15,7 +15,7 @@ func main() {
 	var bridge = &Bridge{}
 	var visits = make(map[[2]float64]bool)
 
-	filepath := "cmd/day9/example"
+	filepath := "cmd/day9/example2"
 	it.Must(fyl.ReadEachLine(filepath, func(line []byte) error {
 		split := strings.Split(string(line), " ")
 		numSteps := it.Must2(strconv.Atoi(split[1]))
@@ -26,7 +26,7 @@ func main() {
 				return err
 			}
 
-			visits[bridge.Knots[1]] = true
+			visits[bridge.Knots[9]] = true
 		}
 
 		return nil
@@ -36,7 +36,7 @@ func main() {
 }
 
 type Bridge struct {
-	Knots [2][2]float64
+	Knots [10][2]float64
 }
 
 func (b *Bridge) Step(direction string) error {
@@ -53,16 +53,16 @@ func (b *Bridge) Step(direction string) error {
 		return errors.New("invalid direction: " + direction)
 	}
 
-	for {
-		fmt.Printf("%+v\n", b)
-
-		next, err := mov(b.Knots[0], b.Knots[1])
+	for i := 0; i < 9; i++ {
+		next, err := mov(b.Knots[i], b.Knots[i+1])
 		if err != nil {
-			return nil
+			break
 		}
 
-		b.Knots[1] = next
+		b.Knots[i+1] = next
 	}
+
+	return nil
 }
 
 func mov(head [2]float64, tail [2]float64) (next [2]float64, err error) {
