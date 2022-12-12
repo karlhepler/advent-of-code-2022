@@ -26,7 +26,7 @@ func main() {
 				return err
 			}
 
-			visits[bridge.Tail] = true
+			visits[bridge.Knots[1]] = true
 		}
 
 		return nil
@@ -36,20 +36,19 @@ func main() {
 }
 
 type Bridge struct {
-	Head [2]float64
-	Tail [2]float64
+	Knots [2][2]float64
 }
 
 func (b *Bridge) Step(direction string) error {
 	switch direction {
 	case "U":
-		b.Head[1]--
+		b.Knots[0][1]--
 	case "D":
-		b.Head[1]++
+		b.Knots[0][1]++
 	case "L":
-		b.Head[0]--
+		b.Knots[0][0]--
 	case "R":
-		b.Head[0]++
+		b.Knots[0][0]++
 	default:
 		return errors.New("invalid direction: " + direction)
 	}
@@ -57,12 +56,12 @@ func (b *Bridge) Step(direction string) error {
 	for {
 		fmt.Printf("%+v\n", b)
 
-		next, err := mov(b.Head, b.Tail)
+		next, err := mov(b.Knots[0], b.Knots[1])
 		if err != nil {
 			return nil
 		}
 
-		b.Tail = next
+		b.Knots[1] = next
 	}
 }
 
