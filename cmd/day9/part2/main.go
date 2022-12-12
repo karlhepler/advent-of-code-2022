@@ -55,18 +55,15 @@ func (b *Bridge) Step(direction string) error {
 	}
 
 	for {
+		fmt.Printf("%+v\n", b)
+
 		next, err := mov(b.Head, b.Tail)
 		if err != nil {
-			break
+			return nil
 		}
 		b.Tail = next
+
 	}
-
-	fmt.Printf("%+v\n", b)
-
-	// fmt.Println("---")
-
-	return nil
 }
 
 func mov(head [2]float64, tail [2]float64) (next [2]float64, err error) {
