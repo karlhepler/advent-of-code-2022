@@ -14,13 +14,19 @@ import (
 func main() {
 	var cmds []int
 
-	filepath := "cmd/day10/example1"
+	filepath := "cmd/day10/example2"
 	it.Must(fyl.ReadEachLine(filepath, func(line []byte) error {
 		cmds = append(cmds, addxByLine(line)...)
 		return nil
 	}))
 
-	fmt.Println(cmds)
+	x := 1
+	for i, n := 1, len(cmds); i < n; i++ {
+		x += cmds[i]
+		if i == 20 || i == 60 || i == 100 || i == 140 || i == 180 || i == 220 {
+			fmt.Println(i, x, i*x)
+		}
+	}
 }
 
 func addxByLine(line []byte) (cmds []int) {
