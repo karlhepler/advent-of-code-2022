@@ -12,7 +12,7 @@ import (
 func main() {
 	var vals = []int{1}
 
-	filepath := "cmd/day10/example2"
+	filepath := "cmd/day10/input"
 	it.Must(fyl.ReadEachLine(filepath, func(line []byte) error {
 		cmdval := strings.Split(string(line), " ")
 
