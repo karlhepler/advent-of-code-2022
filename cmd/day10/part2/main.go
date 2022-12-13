@@ -14,7 +14,7 @@ const Width = 40
 func main() {
 	var vals []int
 
-	filepath := "cmd/day10/example2"
+	filepath := "cmd/day10/input"
 	it.Must(fyl.ReadEachLine(filepath, func(line []byte) error {
 		cmdval := strings.Split(string(line), " ")
 
@@ -30,8 +30,7 @@ func main() {
 		return nil
 	}))
 
-	var xreg int = 1
-	var crty int
+	var xreg, crty int = 1, 0
 	for crtx, val := range vals {
 		nextCrty := int(crtx / Width)
 		if nextCrty > crty {
