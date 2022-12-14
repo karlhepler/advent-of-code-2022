@@ -21,7 +21,7 @@ func main() {
 	var monkey *Monkey
 	var monkeys = make([]*Monkey, 0)
 
-	filepath := "cmd/day11/input"
+	filepath := "cmd/day11/example"
 	it.Must(fyl.ReadEachLine(filepath, func(line []byte) error {
 		linestr := string(line)
 
