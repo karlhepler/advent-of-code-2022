@@ -1,8 +1,11 @@
 package main
 
 import (
+	"container/list"
 	"errors"
+	"fmt"
 	"regexp"
+	"sort"
 	"strconv"
 	"strings"
 
@@ -27,18 +30,18 @@ func main() {
 
 		// Monkey
 		if match := monkeyLine.FindStringSubmatch(linestr); len(match) > 1 {
-			monkey = &Monkey{}
+			monkey = &Monkey{ID: len(monkeys)}
 			monkeys = append(monkeys, monkey)
 			return nil
 		}
 
 		// Starting Items
 		if match := startingItemsLine.FindStringSubmatch(linestr); len(match) > 1 {
-			items := strings.Split(match[1], ", ")
-			monkey.Items = make([]WorryLevel, len(items))
+			monkey.Items = list.New()
 
-			for i, item := range items {
-				monkey.Items[i] = WorryLevel(it.Must2(strconv.Atoi(item)))
+			items := strings.Split(match[1], ", ")
+			for _, item := range items {
+				monkey.Items.PushBack(WorryLevel(it.Must2(strconv.Atoi(item))))
 			}
 
 			return nil
@@ -110,15 +113,59 @@ func main() {
 
 		return nil
 	}))
+
+	processInspections(monkeys, 20)
+	sort.Slice(monkeys, func(i, j int) bool {
+		return monkeys[i].NumInspections > monkeys[j].NumInspections
+	})
+
+	monkeyBusiness := monkeys[0].NumInspections * monkeys[1].NumInspections
+	fmt.Printf("Monkey Business = %d\n", monkeyBusiness)
 }
 
 type MonkeyID int
 type WorryLevel int
 
 type Monkey struct {
-	Items        []WorryLevel
-	Operation    func(WorryLevel) (WorryLevel, error)
-	Test         func(WorryLevel) bool
-	ThrowIfTrue  func(bool) (MonkeyID, error)
-	ThrowIfFalse func(bool) (MonkeyID, error)
+	ID             int
+	Items          *list.List
+	Operation      func(WorryLevel) (WorryLevel, error)
+	Test           func(WorryLevel) bool
+	ThrowIfTrue    func(bool) (MonkeyID, error)
+	ThrowIfFalse   func(bool) (MonkeyID, error)
+	NumInspections int
+}
+
+func processInspections(monkeys []*Monkey, numRounds int) {
+	for round := 0; round < numRounds; round++ {
+		for _, monkey := range monkeys {
+			processInspection(monkey, monkeys)
+		}
+	}
+}
+
+func processInspection(monkey *Monkey, monkeys []*Monkey) {
+	for elem := monkey.Items.Front(); elem != nil; {
+		next := elem.Next()
+		worry := monkey.Items.Remove(elem).(WorryLevel)
+
+		newWorry := it.Must2(monkey.Operation(worry))
+		relievedWorry := relief(newWorry)
+		testResult := monkey.Test(relievedWorry)
+
+		var id MonkeyID
+		var err error
+		if id, err = monkey.ThrowIfTrue(testResult); err != nil {
+			id = it.Must2(monkey.ThrowIfFalse(testResult))
+		}
+
+		monkey.NumInspections++
+		monkeys[id].Items.PushBack(relievedWorry)
+
+		elem = next
+	}
+}
+
+func relief(worry WorryLevel) WorryLevel {
+	return WorryLevel(worry / 3)
 }
