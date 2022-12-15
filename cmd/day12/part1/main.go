@@ -1,6 +1,8 @@
 package main
 
 import (
+	"fmt"
+
 	"github.com/karlhepler/advent-of-code-2022/fyl"
 	"github.com/karlhepler/advent-of-code-2022/it"
 )
@@ -26,6 +28,8 @@ func main() {
 
 		return nil
 	}))
+
+	fmt.Println(fewestStepsToEnd(heightmap, start, end))
 }
 
 func indexOf(line []byte, a byte) (i int, ok bool) {
@@ -36,4 +40,20 @@ func indexOf(line []byte, a byte) (i int, ok bool) {
 	}
 
 	return -1, false
+}
+
+func fewestStepsToEnd(heightmap [][]byte, start, end [2]int) int {
+	for start != end {
+		// Draw line between two points.
+		// The line is the hypotenuse of a triangle.
+		// Assuming right triangle, find the angle.
+		// If the angle from start point is less than 45, then go down (or up depending on quadrant).
+		// If the angle from start point is more than 45, then go left (or right depending on quadrant).
+
+		// If the angle is 45, then pick randomly. This choice, however, will
+		// influence everything after. So you might need to try the other way too.
+		// You will need to do this for each choice.
+	}
+
+	return 0
 }
