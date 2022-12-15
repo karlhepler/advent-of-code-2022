@@ -53,6 +53,9 @@ func fewestStepsToEnd(heightmap [][]byte, start, end [2]int) int {
 		// If the angle is 45, then pick randomly. This choice, however, will
 		// influence everything after. So you might need to try the other way too.
 		// You will need to do this for each choice.
+
+		// Also consider Dijkstra's algorithm
+		// https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm
 	}
 
 	return 0
